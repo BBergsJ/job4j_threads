@@ -5,27 +5,28 @@ public class ConsoleProgress implements Runnable {
         Thread progress = new Thread(new ConsoleProgress());
         progress.start();
         try {
-            Thread.sleep(6000);
+            Thread.sleep(6000); /* симулируем выполнение параллельной задачи в течении 6 секунд. */
         } catch (InterruptedException e) {
             e.printStackTrace();
+            System.out.println("First process interrupted!!!");
         }
         progress.interrupt();
     }
 
     @Override
     public void run() {
-        String[] process = {"_", "_\\", "_\\|", "_\\|/", "_\\|/_", ""};
-        int i = 0;
+        int count = 0;
+        String[] process = {"-", "\\", "|", "/"};
         while (!Thread.currentThread().isInterrupted()) {
+            System.out.print("\r load: " + process[count++]);
+            if (count == 4) {
+                count = 0;
+            }
             try {
                 Thread.sleep(500);
-                System.out.print("\r load: " + process[i++]);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                System.out.println("\nLoading is interrupted!");
-            }
-            if (i == 6) {
-                i = 0;
+                e.printStackTrace();
+                System.out.println("Second process interrupted!!!");
             }
         }
     }
