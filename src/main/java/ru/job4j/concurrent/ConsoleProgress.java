@@ -11,6 +11,7 @@ public class ConsoleProgress implements Runnable {
             System.out.println("First process interrupted!!!");
         }
         progress.interrupt();
+        Thread.currentThread().interrupt();
     }
 
     @Override
