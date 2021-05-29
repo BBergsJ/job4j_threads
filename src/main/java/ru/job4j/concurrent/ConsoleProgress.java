@@ -5,13 +5,11 @@ public class ConsoleProgress implements Runnable {
         Thread progress = new Thread(new ConsoleProgress());
         progress.start();
         try {
-            Thread.sleep(6000); /* симулируем выполнение параллельной задачи в течении 6 секунд. */
+            Thread.sleep(6000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.out.println("First process interrupted!!!");
         }
         progress.interrupt();
-        Thread.currentThread().interrupt();
     }
 
     @Override
@@ -24,10 +22,9 @@ public class ConsoleProgress implements Runnable {
                 count = 0;
             }
             try {
-                Thread.sleep(500);
+                Thread.sleep(300);
             } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.out.println("Second process interrupted!!!");
+                Thread.currentThread().interrupt();
             }
         }
     }
