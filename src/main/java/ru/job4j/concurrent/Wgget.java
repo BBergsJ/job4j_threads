@@ -19,14 +19,14 @@ public class Wgget implements Runnable {
     public void run() {
         try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
              FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp.xml")) {
-            byte[] dataBuffer = new byte[speed];
+            byte[] dataBuffer = new byte[1024];
             int bytesRead;
             long startTime = System.currentTimeMillis();
-            while ((bytesRead = in.read(dataBuffer, 0, speed)) != -1) {
+            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
                 long finishTime = System.currentTimeMillis();
-                if ((finishTime - startTime) < 1000) {
-                    Thread.sleep(1000 - (finishTime - startTime));
+                if ((finishTime - startTime) < speed) {
+                    Thread.sleep(speed - (finishTime - startTime));
                 }
             }
         } catch (IOException | InterruptedException e) {
