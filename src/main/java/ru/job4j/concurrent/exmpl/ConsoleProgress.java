@@ -1,4 +1,4 @@
-package ru.job4j.concurrent;
+package ru.job4j.concurrent.exmpl;
 
 public class ConsoleProgress implements Runnable {
     public static void main(String[] args) {

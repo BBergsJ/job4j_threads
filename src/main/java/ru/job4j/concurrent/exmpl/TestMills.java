@@ -1,4 +1,4 @@
-package ru.job4j.concurrent;
+package ru.job4j.concurrent.exmpl;
 
 public class TestMills {
     public static void main(String[] args) throws InterruptedException {
