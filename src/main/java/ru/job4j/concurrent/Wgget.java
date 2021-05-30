@@ -17,8 +17,8 @@ public class Wgget implements Runnable {
     public static void main(String[] args) throws InterruptedException {
         String url = args[0];
         int speed = Integer.parseInt(args[1]);
-        Thread wget = new Thread(new Wgget(url, speed));
-        wget.start();
-        wget.join();
+        Thread wwget = new Thread(new Wgget(url, speed));
+        wwget.start();
+        wwget.join();
     }
 }
