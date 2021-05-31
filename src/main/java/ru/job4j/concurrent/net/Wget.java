@@ -1,9 +1,10 @@
 package ru.job4j.concurrent.net;
 
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
+import java.io.*;
+import java.net.*;
+import java.text.*;
+import java.util.Date;
+import java.nio.file.Paths;
 
 public class Wget implements Runnable {
     private final String url;
@@ -17,7 +18,7 @@ public class Wget implements Runnable {
     @Override
     public void run() {
         try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp.xml")) {
+             FileOutputStream fileOutputStream = new FileOutputStream(getFileNameFromURL(url))) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
@@ -28,7 +29,7 @@ public class Wget implements Runnable {
                     Thread.sleep(speed - (finishTime - startTime));
                 }
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | URISyntaxException e) {
             e.printStackTrace();
             Thread.currentThread().interrupt();
         }
@@ -43,5 +44,11 @@ public class Wget implements Runnable {
         Thread wget = new Thread(new Wget(url, speed));
         wget.start();
         wget.join();
+    }
+
+    public static String getFileNameFromURL(String url) throws URISyntaxException {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_");
+        Date date = new Date();
+        return dateFormat.format(date) + Paths.get(new URI(url).getPath()).getFileName().toString();
     }
 }
