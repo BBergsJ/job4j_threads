@@ -20,8 +20,8 @@ public class Wget implements Runnable {
              FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp.xml")) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
-            long startTime = System.currentTimeMillis();
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+                long startTime = System.currentTimeMillis();
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
                 long finishTime = System.currentTimeMillis();
                 if ((finishTime - startTime) < speed) {
@@ -35,6 +35,9 @@ public class Wget implements Runnable {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        if (args.length < 2) {
+            throw new IllegalArgumentException("URL or speed is not entered.");
+        }
         String url = args[0];
         int speed = Integer.parseInt(args[1]);
         Thread wget = new Thread(new Wget(url, speed));
