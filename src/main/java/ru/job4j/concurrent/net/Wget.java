@@ -46,7 +46,7 @@ public class Wget implements Runnable {
         wget.join();
     }
 
-    public static String getFileNameFromURL(String url) throws URISyntaxException {
+    private static String getFileNameFromURL(String url) throws URISyntaxException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_");
         Date date = new Date();
         return dateFormat.format(date) + Paths.get(new URI(url).getPath()).getFileName().toString();
