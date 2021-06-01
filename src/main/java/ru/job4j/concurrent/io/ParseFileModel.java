@@ -8,6 +8,10 @@ public class ParseFileModel {
         this.file = file;
     }
 
+//    public File getFile() {
+//        return file;
+//    }
+
     public static void main(String[] args) {
         ParseFileModel pf = new ParseFileModel(new File("test.txt"));
         try {
