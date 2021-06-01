@@ -13,12 +13,12 @@ public class ParseFileModel {
 //    }
 
     public static void main(String[] args) {
-        ParseFileModel pf = new ParseFileModel(new File("test.txt"));
+        ParseFileModel pfm = new ParseFileModel(new File("test.txt"));
         try {
-            System.out.println(new ParseFileActions().content((x -> x < 0x80), pf.file));
-            System.out.println(new ParseFileActions().content((x -> true), pf.file));
+            System.out.println(new ParseFileActions().content((x -> x < 0x80), pfm.file));
+            System.out.println(new ParseFileActions().content((x -> true), pfm.file));
             ParseFileActions pfa = new ParseFileActions();
-            pfa.saveContent("Reverse this!!!", pf.file);
+            pfa.saveContent("Reverse this!!!", pfm.file);
         } catch (Exception e) {
             e.printStackTrace();
         }
