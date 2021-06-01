@@ -41,7 +41,21 @@ public class UserStorage {
         return false;
     }
 
+    public User findId(int id) {
+        for (User u : users) {
+            if (id == u.getId()) {
+                return u;
+            }
+        }
+        return null;
+    }
+
     public boolean transfer(int fromId, int toId, int amount) {
+        User from = findId(fromId);
+        User to = findId(toId);
+        if (from != null && to != null && from.getAmount() >= amount) {
+
+        }
         return false;
     }
 
