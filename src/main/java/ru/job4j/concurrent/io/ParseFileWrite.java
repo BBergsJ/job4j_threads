@@ -4,8 +4,14 @@ import java.io.*;
 
 public class ParseFileWrite {
 
-    public synchronized void saveContent(String content, File file) throws IOException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+    private final File file;
+
+    public ParseFileWrite(File file) {
+        this.file = file;
+    }
+
+    public synchronized void saveContent(String content) throws IOException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             for (int i = 0; i < content.length(); i += 1) {
                 bw.write(content.charAt(i));
             }

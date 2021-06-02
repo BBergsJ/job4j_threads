@@ -5,7 +5,13 @@ import java.util.function.Predicate;
 
 public class ParseFileRead {
 
-    public synchronized String content(Predicate<Character> filter, File file) throws IOException {
+    private final File file;
+
+    public ParseFileRead(File file) {
+        this.file = file;
+    }
+
+    public synchronized String content(Predicate<Character> filter) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             StringBuilder output = new StringBuilder();
             int data;
