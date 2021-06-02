@@ -53,9 +53,9 @@ public class UserStorage {
     public boolean transfer(int fromId, int toId, int amount) {
         User from = findId(fromId);
         User to = findId(toId);
-        if (from != null && to != null && from.getAmount() >= amount) {
-
-        }
+//        if (from != null && to != null && from.getAmount() >= amount) {
+//
+//        }
         return false;
     }
 
