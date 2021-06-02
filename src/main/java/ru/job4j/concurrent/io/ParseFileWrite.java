@@ -13,7 +13,8 @@ public class ParseFileWrite {
     public synchronized void saveContent(String content) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             for (int i = 0; i < content.length(); i += 1) {
-                bw.write(content.charAt(i));
+                bw.append(content.charAt(i));
+                bw.flush();
             }
         }
     }
