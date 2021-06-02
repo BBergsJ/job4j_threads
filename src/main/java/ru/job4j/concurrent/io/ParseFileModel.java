@@ -5,7 +5,7 @@ import java.io.*;
 public class ParseFileModel { //Не удачное имя класса, забыл поменять.
 
     public static void main(String[] args) throws IOException {
-        File file = new File("test.txt");
+        File file = new File("java_visibility_testing.txt");
         if (!file.exists()) {
             file.createNewFile();
         }
