@@ -3,6 +3,7 @@ package ru.job4j.concurrent.synch;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -17,13 +18,15 @@ public class SingleLockList<T> implements Iterable<T> {
     }
 
     public synchronized void add(T value) {
+        this.list.add(value);
     }
 
     public synchronized T get(int index) {
-        return null;
+        return this.list.get(index);
     }
 
-    private synchronized Iterable<T> copy(List<T> list) {
+    private synchronized List<T> copy(List<T> list) {
+        return new ArrayList<>(list);
     }
 
     @Override
