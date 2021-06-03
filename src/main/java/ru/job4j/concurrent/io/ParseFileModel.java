@@ -12,7 +12,7 @@ public class ParseFileModel { //Не удачное имя класса, заб�
         ParseFileRead parseFileRead = new ParseFileRead(file);
         System.out.println(parseFileRead.content(x -> true));
 
-        ParseFileWrite parseFileWrite = new ParseFileWrite((file));
+        ParseFileWrite parseFileWrite = new ParseFileWrite(file);
         parseFileWrite.saveContent(" Testing");
         System.out.println(parseFileRead.content(x -> x < 0x80));
     }
