@@ -22,4 +22,12 @@ public final class User {
     public synchronized int getAmount() {
         return amount;
     }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id=" + id
+                + ", amount=" + amount
+                + '}';
+    }
 }

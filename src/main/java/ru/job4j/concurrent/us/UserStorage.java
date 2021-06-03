@@ -1,69 +1,43 @@
 package ru.job4j.concurrent.us;
 
-import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @ThreadSafe
 public class UserStorage {
 
-    private final List<User> users = new ArrayList<>();
+    private final Map<Integer, User> users = new HashMap<>();
 
-    public boolean add(User user) {
-        for (User u : users) {
-            if (user.getId() != u.getId()) {
-                users.add(user);
-                return true;
-            }
+    public synchronized boolean add(User user) {
+        if (!users.containsKey(user.getId())) {
+            users.put(user.getId(), user);
+            return true;
         }
         return false;
     }
 
-    public boolean update(User user) {
-        for (User u : users) {
-            if (user.getId() == u.getId()) {
-                users.set(u.getId() - 1, user);
-                return true;
-            }
+    public synchronized boolean update(User user) {
+        if (users.containsKey(user.getId())) {
+            users.put(user.getId(), user);
+            return true;
         }
         return false;
     }
 
-    public boolean delete(User user) {
-        for (User u : users) {
-            if (user.getId() == u.getId()) {
-                users.remove(u);
-                return true;
-            }
+    public synchronized boolean delete(User user) {
+        return users.remove(user.getId(), user);
+    }
+
+    public synchronized boolean transfer(int fromId, int toId, int amount) {
+        User fromUser = users.get(fromId);
+        User toUser = users.get(toId);
+        if (fromUser != null && toUser != null && fromUser.getAmount() >= amount) {
+            update(new User(fromUser.getId(), fromUser.getAmount() - amount));
+            update(new User(toUser.getId(), toUser.getAmount() + amount));
+            return true;
         }
         return false;
-    }
-
-    public User findId(int id) {
-        for (User u : users) {
-            if (id == u.getId()) {
-                return u;
-            }
-        }
-        return null;
-    }
-
-    public boolean transfer(int fromId, int toId, int amount) {
-        User from = findId(fromId);
-        User to = findId(toId);
-//        if (from != null && to != null && from.getAmount() >= amount) {
-//
-//        }
-        return false;
-    }
-
-    public static void main(String[] args) {
-        UserStorage storage = new UserStorage();
-        storage.add(new User(1, 100));
-        storage.add(new User(2, 200));
-
-        storage.transfer(1, 2, 50);
     }
 }
