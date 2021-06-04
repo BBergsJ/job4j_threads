@@ -1,13 +1,7 @@
 package ru.job4j.concurrent.us;
 
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
-
-@ThreadSafe
 public final class User {
-    @GuardedBy("this")
     private final int id;
-    @GuardedBy("this")
     private final int amount;
 
     public User(int id, int amount) {
@@ -15,11 +9,11 @@ public final class User {
         this.amount = amount;
     }
 
-    public synchronized int getId() {
+    public int getId() {
         return id;
     }
 
-    public synchronized int getAmount() {
+    public int getAmount() {
         return amount;
     }
 
