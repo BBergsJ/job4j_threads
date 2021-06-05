@@ -45,4 +45,8 @@ public class SimpleBlockingQueue<T> {
             return queue.poll();
         }
     }
+
+    public int getQueueForTest() {
+        return queue.size();
+    }
 }

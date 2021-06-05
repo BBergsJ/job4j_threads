@@ -2,6 +2,11 @@ package ru.job4j.concurrent.block;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class SimpleBlockingQueueTest {
@@ -27,5 +32,6 @@ public class SimpleBlockingQueueTest {
         second.start();
         first.join();
         second.join();
+        assertThat(sbq.getQueueForTest(), is(0));
     }
 }
