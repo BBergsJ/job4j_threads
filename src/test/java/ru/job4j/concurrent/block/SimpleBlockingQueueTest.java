@@ -9,34 +9,18 @@ public class SimpleBlockingQueueTest {
     public void whenOK() throws InterruptedException {
         SimpleBlockingQueue<Integer> sbq = new SimpleBlockingQueue<>(3);
         Thread first = new Thread(() -> {
-                sbq.offer(1);
-                sbq.offer(2);
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-                sbq.offer(5);
-            }, "First"
+            for (int i = 0; i < 10; i++) {
+                    sbq.offer(i);
+                    System.out.println(Thread.currentThread().getName() + " " + i);
+                }
+            }, "Producer"
         );
 
         Thread second = new Thread(() -> {
-            try {
-               Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-                sbq.offer(3);
-                sbq.offer(4);
-
-            System.out.println(sbq.poll());
-            System.out.println(sbq.poll());
-            System.out.println(sbq.poll());
-            System.out.println(sbq.poll());
-            System.out.println(sbq.poll());
-
-            System.out.println(sbq.poll());
-            }, "Second"
+            for (int i = 0; i < 10; i++) {
+                    System.out.println(Thread.currentThread().getName() + " " + sbq.poll());
+                }
+            }, "Consumer"
         );
 
         first.start();

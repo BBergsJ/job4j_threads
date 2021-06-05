@@ -41,6 +41,7 @@ public class SimpleBlockingQueue<T> {
                     Thread.currentThread().interrupt();
                 }
             }
+            this.notifyAll();
             return queue.poll();
         }
     }
