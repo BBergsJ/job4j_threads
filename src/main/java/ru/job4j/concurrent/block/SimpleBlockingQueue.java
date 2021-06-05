@@ -11,9 +11,22 @@ public class SimpleBlockingQueue<T> {
 
     @GuardedBy("this")
     private Queue<T> queue = new LinkedList<>();
+    @GuardedBy("this")
+    private final int size;
+
+    public SimpleBlockingQueue(int size) {
+        this.size = size;
+    }
 
     public void offer(T value) {
         synchronized (this) {
+            while (queue.size() > size || queue.size() == 0) {
+                try {
+                    this.wait();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
             queue.offer(value);
             this.notifyAll();
         }
