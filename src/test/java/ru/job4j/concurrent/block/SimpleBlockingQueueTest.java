@@ -15,16 +15,24 @@ public class SimpleBlockingQueueTest {
         SimpleBlockingQueue<Integer> sbq = new SimpleBlockingQueue<>(3);
         Thread first = new Thread(() -> {
             for (int i = 0; i < 10; i++) {
+                try {
                     sbq.offer(i);
-                    System.out.println(Thread.currentThread().getName() + " " + i);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                System.out.println(Thread.currentThread().getName() + " " + i);
                 }
             }, "Producer"
         );
 
         Thread second = new Thread(() -> {
             for (int i = 0; i < 10; i++) {
+                try {
                     System.out.println(Thread.currentThread().getName() + " " + sbq.poll());
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
+            }
             }, "Consumer"
         );
 
