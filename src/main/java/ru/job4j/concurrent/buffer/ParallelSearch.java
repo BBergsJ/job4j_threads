@@ -8,8 +8,8 @@ public class ParallelSearch {
         SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<Integer>(3);
         final Thread consumer = new Thread(
                 () -> {
-                    while (!Thread.currentThread().isInterrupted()) {
-                        try {
+                    while (!Thread.currentThread().isInterrupted()) { // Пробовал через Thread.currentThread().getState() == Thread.State.RUNNABLE
+                        try {                                         //Не останавливается, хотя я думал статус у него должен быть WAIT
                             System.out.println(queue.poll());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
