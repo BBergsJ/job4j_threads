@@ -39,6 +39,8 @@ public class SimpleBlockingQueue<T> {
     }
 
     public int getQueueForTest() {
-        return queue.size();
+        synchronized (this) {
+            return queue.size();
+        }
     }
 }
