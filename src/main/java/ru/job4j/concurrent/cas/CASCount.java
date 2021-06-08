@@ -9,10 +9,10 @@ public class CASCount {
     private AtomicReference<Integer> count = new AtomicReference<>();
 
     public void increment() {
-        Integer temp;
+        Integer tmp;
         do {
-            temp = count.get();
-        } while (!count.compareAndSet(temp, temp + 1));
+            tmp = count.get();
+        } while (!count.compareAndSet(tmp, tmp + 1));
     }
 
     public int get() {
@@ -24,25 +24,22 @@ public class CASCount {
         casCount.count.set(0);
 
          Thread thread1 = new Thread(() -> {
-             while (!Thread.currentThread().isInterrupted()) {
+             for (int i = 0; i < 10; i++) {
                  casCount.increment();
              }
          });
 
          Thread thread2 = new Thread(() -> {
-             while (!Thread.currentThread().isInterrupted()) {
+             for (int i = 0; i < 10; i++) {
                  casCount.increment();
              }
          });
 
          thread1.start();
          thread2.start();
-         Thread.sleep(1000);
-         thread1.interrupt();
-         thread2.interrupt();
          thread1.join();
          thread2.join();
 
-        System.out.println(casCount.get());
+        System.out.println(casCount.get() + " must be 20");
     }
 }
