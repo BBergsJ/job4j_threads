@@ -12,11 +12,16 @@ public class Cache {
     }
 
     public boolean update(Base model) {
-        Base stored = memory.get(model.getId());
-        if (stored.getVersion() != model.getVersion()) {
-            throw new OptimisticException("Versions are not equal");
-        }
-        return true;
+//        Base stored = memory.get(model.getId());
+//        if (stored.getVersion() != model.getVersion()) {
+//            throw new OptimisticException("Versions are not equal");
+//        }
+//        memory.replace(model.getId(), new Base(stored.getId(), stored.getVersion() + 1));
+
+        return memory.computeIfPresent(model.getId(), (id, base) -> {
+
+
+        });
     }
 
     public void delete(Base model) {
@@ -28,6 +33,6 @@ public class Cache {
         Base base2 = new Base(2, 1);
 
         Cache cache = new Cache();
-        BiFunction biFunction;
+        BiFunction<Base, Base, Boolean> biFunction = (a, b) -> a.getVersion() != b.getVersion();
     }
 }
