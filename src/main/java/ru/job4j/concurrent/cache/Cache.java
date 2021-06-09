@@ -12,16 +12,14 @@ public class Cache {
     }
 
     public boolean update(Base model) {
-//        Base stored = memory.get(model.getId());
-//        if (stored.getVersion() != model.getVersion()) {
-//            throw new OptimisticException("Versions are not equal");
-//        }
-//        memory.replace(model.getId(), new Base(stored.getId(), stored.getVersion() + 1));
-
         return memory.computeIfPresent(model.getId(), (id, base) -> {
-
-
-        });
+            Base stored = memory.get(model.getId());
+            if (stored.getVersion() != model.getVersion()) {
+                throw new OptimisticException("Version are not equal");
+            }
+            base = new Base(id, base.getVersion() + 1);
+            return base;
+        }) != null;
     }
 
     public void delete(Base model) {
@@ -31,8 +29,32 @@ public class Cache {
     public static void main(String[] args) {
         Base base1 = new Base(1, 1);
         Base base2 = new Base(2, 1);
+        Base base3 = new Base(3, 1);
 
         Cache cache = new Cache();
-        BiFunction<Base, Base, Boolean> biFunction = (a, b) -> a.getVersion() != b.getVersion();
+        cache.add(base1);
+        cache.add(base2);
+        cache.add(base3);
+
+        for (Map.Entry<Integer, Base> integerBaseEntry : cache.memory.entrySet()) {
+            System.out.println(integerBaseEntry);
+        }
+
+        System.out.println(System.lineSeparator());
+
+        cache.update(cache.memory.get(base1.getId()));
+
+
+        for (Map.Entry<Integer, Base> integerBaseEntry : cache.memory.entrySet()) {
+            System.out.println(integerBaseEntry);
+        }
+
+        System.out.println(System.lineSeparator());
+
+        cache.update(cache.memory.get(base1.getId()));
+
+        for (Map.Entry<Integer, Base> integerBaseEntry : cache.memory.entrySet()) {
+            System.out.println(integerBaseEntry);
+        }
     }
 }
