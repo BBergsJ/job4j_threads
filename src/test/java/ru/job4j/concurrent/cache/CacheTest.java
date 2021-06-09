@@ -29,11 +29,17 @@ public class CacheTest {
 
     @Test
     public void whenUpdateOk() {
-
+        Cache cache = new Cache();
+        Base base = new Base(1, 1);
+        cache.add(base);
+        assertThat(cache.update(base), is(true));
     }
 
     @Test(expected = OptimisticException.class)
     public void whenUpdateException() {
-
+        Cache cache = new Cache();
+        Base base = new Base(1, 1);
+        cache.add(base);
+        cache.add(base);
     }
 }
