@@ -40,6 +40,7 @@ public class CacheTest {
         Cache cache = new Cache();
         Base base = new Base(1, 1);
         cache.add(base);
-        cache.add(base);
+        cache.update(base);
+        cache.update(base);
     }
 }
