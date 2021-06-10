@@ -10,27 +10,33 @@ public class ThreadPool {
     private final SimpleBlockingQueue<Runnable> tasks;
 
     public ThreadPool(SimpleBlockingQueue<Runnable> tasks) {
-        this. =
-    }
-
-    public void work(Runnable job) {
+        this.tasks = tasks;
         int size = Runtime.getRuntime().availableProcessors();
         for (int i = 0; i < size; i++) {
-            threads.add((Thread) job);
+            threads.add(new Thread(() -> {
+                while (!Thread.currentThread().isInterrupted() || tasks.getQueueForTest() != 0) {
+                    System.out.println(Thread.currentThread().getName() + " " + );
+                }
+            }));
         }
     }
 
-    public void shutdown() {
-        Thread.currentThread().interrupt();
+    public void work(Runnable job) throws InterruptedException {
+        tasks.offer(job);
     }
 
-    public static void main(String[] args) {
+    public void shutdown() {
+        threads.forEach(Thread::interrupt);
+    }
+
+    public static void main(String[] args) throws InterruptedException {
         Thread thread = new Thread(() -> {
             System.out.println(Thread.currentThread().getName());
         });
-        ThreadPool threadPool = new ThreadPool();
+        SimpleBlockingQueue<Runnable> sbq = new SimpleBlockingQueue<>(5);
+        ThreadPool threadPool = new ThreadPool(sbq);
         threadPool.work(thread);
-        threadPool.threads.forEach(System.out::println);
+        threadPool.threads.forEach(x -> System.out.println(x.getId()));
         Runnable task1 = new Thread();
         threadPool.work(task1);
     }
