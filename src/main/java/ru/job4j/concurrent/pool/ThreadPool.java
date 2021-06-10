@@ -15,7 +15,13 @@ public class ThreadPool {
         for (int i = 0; i < size; i++) {
             threads.add(new Thread(() -> {
                 while (!Thread.currentThread().isInterrupted() || tasks.getQueueForTest() != 0) {
-                    System.out.println(Thread.currentThread().getName() + " " + );
+                    try {
+                        tasks.poll().run();
+                        System.out.println(Thread.currentThread().getName() + " solved this task.");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        Thread.currentThread().interrupt();
+                    }
                 }
             }));
         }
@@ -30,14 +36,24 @@ public class ThreadPool {
     }
 
     public static void main(String[] args) throws InterruptedException {
+        ThreadPool threadPool = new ThreadPool(new SimpleBlockingQueue<>(5));
         Thread thread = new Thread(() -> {
-            System.out.println(Thread.currentThread().getName());
+            try {
+                System.out.println(Thread.currentThread().getName() + " now working...");
+                Thread.sleep(1000);
+                System.out.println("Done!");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
+            }
         });
-        SimpleBlockingQueue<Runnable> sbq = new SimpleBlockingQueue<>(5);
-        ThreadPool threadPool = new ThreadPool(sbq);
-        threadPool.work(thread);
-        threadPool.threads.forEach(x -> System.out.println(x.getId()));
-        Runnable task1 = new Thread();
-        threadPool.work(task1);
+
+        for (Thread thread1 : threadPool.threads) {
+            thread1.start();
+        }
+
+        for (int i = 0; i < 100; i++) {
+            threadPool.work(thread);
+        }
     }
 }
