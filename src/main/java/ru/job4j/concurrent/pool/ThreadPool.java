@@ -7,7 +7,11 @@ import java.util.List;
 
 public class ThreadPool {
     private final List<Thread> threads = new LinkedList<>();
-    private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>(5);
+    private final SimpleBlockingQueue<Runnable> tasks;
+
+    public ThreadPool(SimpleBlockingQueue<Runnable> tasks) {
+        this. =
+    }
 
     public void work(Runnable job) {
         int size = Runtime.getRuntime().availableProcessors();
