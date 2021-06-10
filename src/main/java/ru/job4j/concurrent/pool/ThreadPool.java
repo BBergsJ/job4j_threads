@@ -11,7 +11,9 @@ public class ThreadPool {
 
     public void work(Runnable job) {
         int size = Runtime.getRuntime().availableProcessors();
-
+        for (int i = 0; i < size; i++) {
+            threads.add((Thread) job);
+        }
     }
 
     public void shutdown() {
@@ -24,5 +26,8 @@ public class ThreadPool {
         });
         ThreadPool threadPool = new ThreadPool();
         threadPool.work(thread);
+        threadPool.threads.forEach(System.out::println);
+        Runnable task1 = new Thread();
+        threadPool.work(task1);
     }
 }
