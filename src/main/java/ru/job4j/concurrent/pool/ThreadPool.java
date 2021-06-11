@@ -55,5 +55,7 @@ public class ThreadPool {
         for (int i = 0; i < 100; i++) {
             threadPool.work(thread);
         }
+
+        threadPool.shutdown();
     }
 }
