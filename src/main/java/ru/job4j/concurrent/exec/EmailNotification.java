@@ -57,9 +57,9 @@ public class EmailNotification {
 
     public void send(String subject, String body, String email) {
         System.out.println(
-                "subject = " + subject + System.lineSeparator() +
-                "body = " + body +  System.lineSeparator() +
-                "email : " + email + System.lineSeparator()
+                "subject = " + subject + System.lineSeparator()
+                        + "body = " + body +  System.lineSeparator()
+                        + "email : " + email + System.lineSeparator()
         );
     }
 
