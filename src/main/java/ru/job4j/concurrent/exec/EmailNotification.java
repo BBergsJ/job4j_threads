@@ -21,7 +21,7 @@ public class EmailNotification {
         });
     }
 
-    public void close(){
+    public void close() {
         pool.shutdown();
         while (!pool.isTerminated()) {
             try {
