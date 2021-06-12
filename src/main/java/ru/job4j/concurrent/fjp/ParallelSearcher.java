@@ -21,23 +21,23 @@ public class ParallelSearcher extends RecursiveTask<Integer> {
 
     @Override
     protected Integer compute() {
-        int rsl = -1;
         if (from == to) {
             return -1;
         } else if (array.length <= 10) {
-            return serialSearch(array, index);
+            return serialSearch();
         }
         int mid = (from + to) / 2;
         ParallelSearcher leftPS = new ParallelSearcher(array, from, mid, index);
         ParallelSearcher rightPS = new ParallelSearcher(array, mid + 1, to, index);
         leftPS.fork();
         rightPS.fork();
-        Integer left = leftPS.join();
-        Integer right = rightPS.join();
-        return Math.max(left, right);
+        int rsl = leftPS.join() + rightPS.join();
+//        Integer left = leftPS.join();
+//        Integer right = rightPS.join();
+        return rsl;
     }
 
-    private int serialSearch(int[] array, int index) {
+    private int serialSearch() {
         for (int i = from; i < to; i++) {
             if (array[i] == index) {
                 return i;
