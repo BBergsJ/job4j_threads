@@ -2,7 +2,6 @@ package ru.job4j.concurrent.fjp;
 
 import ru.job4j.concurrent.buffer.ParallelSearch;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
@@ -26,7 +25,7 @@ public class ParallelSearcher extends RecursiveTask<Integer> {
         if (from == to) {
             return -1;
         } else if (array.length <= 10) {
-            rsl = serialSearch(array, index);
+            return serialSearch(array, index);
         }
         int mid = (from + to) / 2;
         ParallelSearcher leftPS = new ParallelSearcher(array, from, mid, index);
