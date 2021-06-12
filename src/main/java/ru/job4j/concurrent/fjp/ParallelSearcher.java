@@ -29,6 +29,6 @@ public class ParallelSearcher extends RecursiveTask<Integer> {
 
     public static int find(int[] array, int index) {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
-        forkJoinPool.invoke(new ParallelSearcher(array, 0, array.length - 1, index));
+        return forkJoinPool.invoke(new ParallelSearcher(array, 0, array.length - 1, index));
     }
 }
