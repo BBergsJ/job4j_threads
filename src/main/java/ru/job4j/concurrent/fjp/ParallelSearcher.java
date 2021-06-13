@@ -32,8 +32,8 @@ public class ParallelSearcher extends RecursiveTask<Integer> {
         ParallelSearcher rightPS = new ParallelSearcher(array, mid + 1, to, element);
         leftPS.fork();
         rightPS.fork();
-        int left = leftPS.join();
         int right = rightPS.join();
+        int left = leftPS.join();
         return left != -1 ? left : right;
     }
 
