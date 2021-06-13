@@ -34,7 +34,7 @@ public class ParallelSearcher extends RecursiveTask<Integer> {
         rightPS.fork();
         int left = leftPS.join();
         int right = rightPS.join();
-        return Math.max(left, right);
+        return left != -1 ? left : right;
     }
 
     private int serialSearch() {
