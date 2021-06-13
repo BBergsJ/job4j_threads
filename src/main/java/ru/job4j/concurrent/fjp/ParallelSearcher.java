@@ -10,36 +10,36 @@ public class ParallelSearcher extends RecursiveTask<Integer> {
     private final int[] array;
     private final int from;
     private final int to;
-    private final int index;
+    private final int element;
 
-    public ParallelSearcher(int[] array, int from, int to, int index) {
+    public ParallelSearcher(int[] array, int from, int to, int element) {
         this.array = array;
         this.from = from;
         this.to = to;
-        this.index = index;
+        this.element = element;
     }
 
     @Override
     protected Integer compute() {
         if (from == to) {
             return -1;
-        } else if (array.length <= 10) {
+        }
+        if (to - from <= 10) {
             return serialSearch();
         }
         int mid = (from + to) / 2;
-        ParallelSearcher leftPS = new ParallelSearcher(array, from, mid, index);
-        ParallelSearcher rightPS = new ParallelSearcher(array, mid + 1, to, index);
+        ParallelSearcher leftPS = new ParallelSearcher(array, from, mid, element);
+        ParallelSearcher rightPS = new ParallelSearcher(array, mid + 1, to, element);
         leftPS.fork();
         rightPS.fork();
-        int rsl = leftPS.join() + rightPS.join();
-//        Integer left = leftPS.join();
-//        Integer right = rightPS.join();
-        return rsl;
+        Integer left = leftPS.join();
+        Integer right = rightPS.join();
+        return Math.max(left, right);
     }
 
     private int serialSearch() {
         for (int i = from; i < to; i++) {
-            if (array[i] == index) {
+            if (array[i] == element) {
                 return i;
             }
         }
