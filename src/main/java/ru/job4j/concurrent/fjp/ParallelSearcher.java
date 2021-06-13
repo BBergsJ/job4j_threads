@@ -24,7 +24,7 @@ public class ParallelSearcher extends RecursiveTask<Integer> {
         if (from == to) {
             return -1;
         }
-        if (to - from <= 10) {
+        if (from - to <= 10) {
             return serialSearch();
         }
         int mid = (from + to) / 2;
