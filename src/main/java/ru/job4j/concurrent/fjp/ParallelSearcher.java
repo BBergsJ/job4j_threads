@@ -47,22 +47,4 @@ public class ParallelSearcher<T> extends RecursiveTask<Integer> {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         return (Integer) forkJoinPool.invoke(new ParallelSearcher(array, 0, array.length - 1, index));
     }
-
-    public static void main(String[] args) {
-
-        Integer[] array = new Integer[100];
-        for (int i = 0; i < 100; i++) {
-            array[i] = i;
-        }
-
-        int element = 55;
-
-        System.out.println(ParallelSearcher.find(array, element));
-
-        String[] stArray = {"a", "b", "c", "d", "e"};
-
-        String c = "c";
-
-        System.out.println(ParallelSearcher.find(stArray, c));
-    }
 }
