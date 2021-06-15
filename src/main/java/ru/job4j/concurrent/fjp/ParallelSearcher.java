@@ -1,18 +1,15 @@
 package ru.job4j.concurrent.fjp;
 
-import ru.job4j.concurrent.buffer.ParallelSearch;
-
-import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
-public class ParallelSearcher extends RecursiveTask<Integer> {
-    private final int[] array;
+public class ParallelSearcher<T> extends RecursiveTask<Integer> {
+    private final T[] array;
     private final int from;
     private final int to;
-    private final int element;
+    private final T element;
 
-    public ParallelSearcher(int[] array, int from, int to, int element) {
+    public ParallelSearcher(T[] array, int from, int to, T element) {
         this.array = array;
         this.from = from;
         this.to = to;
@@ -28,13 +25,13 @@ public class ParallelSearcher extends RecursiveTask<Integer> {
             return serialSearch();
         }
         int mid = (from + to) / 2;
-        ParallelSearcher leftPS = new ParallelSearcher(array, from, mid, element);
-        ParallelSearcher rightPS = new ParallelSearcher(array, mid + 1, to, element);
+        ParallelSearcher<T> leftPS = new ParallelSearcher<>(array, from, mid, element);
+        ParallelSearcher<T> rightPS = new ParallelSearcher<>(array, mid + 1, to, element);
         leftPS.fork();
         rightPS.fork();
-        int right = rightPS.join();
-        int left = leftPS.join();
-        return left != -1 ? left : right;
+        T right = (T) rightPS.join();
+        T left = (T) leftPS.join();
+        return (Integer) (left.equals(-1) ? left : right);
     }
 
     private int serialSearch() {
@@ -46,18 +43,26 @@ public class ParallelSearcher extends RecursiveTask<Integer> {
         return -1;
     }
 
-    public static int find(int[] array, int index) {
+        public static <T> Integer find(T[] array, T index) {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
-        return forkJoinPool.invoke(new ParallelSearcher(array, 0, array.length - 1, index));
+        return (Integer) forkJoinPool.invoke(new ParallelSearcher(array, 0, array.length - 1, index));
     }
 
     public static void main(String[] args) {
-        ParallelSearch parallelSearch = new ParallelSearch();
-        int index = 55;
-        int[] array = new int[100];
+
+        Integer[] array = new Integer[100];
         for (int i = 0; i < 100; i++) {
             array[i] = i;
         }
-        System.out.println(find(array, index));
+
+        int element = 55;
+
+        System.out.println(ParallelSearcher.find(array, element));
+
+        String[] stArray = {"a", "b", "c", "d", "e"};
+
+        String c = "c";
+
+        System.out.println(ParallelSearcher.find(stArray, c));
     }
 }
