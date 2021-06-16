@@ -29,14 +29,14 @@ public class ParallelSearcher<T> extends RecursiveTask<Integer> {
         ParallelSearcher<T> rightPS = new ParallelSearcher<>(array, mid + 1, to, element);
         leftPS.fork();
         rightPS.fork();
-        T right = (T) rightPS.join();
-        T left = (T) leftPS.join();
-        return (Integer) (left.equals(-1) ? left : right);
+        int right = rightPS.join();
+        int left = leftPS.join();
+        return Math.max(left, right);
     }
 
     private int serialSearch() {
-        for (int i = from; i < to; i++) {
-            if (array[i] == element) {
+        for (int i = from; i <= to; i++) {
+            if (array[i].equals(element)) {
                 return i;
             }
         }
