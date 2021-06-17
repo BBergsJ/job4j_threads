@@ -36,4 +36,17 @@ public class MatrixExample {
             return sum;
         });
     }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        MatrixExample matrixExample = new MatrixExample();
+        int[][] matrix = new int[][]{
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        };
+        int[] rsl = asyncSum(matrix);
+        for (int i : rsl) {
+            System.out.print(i + "  ");
+        }
+    }
 }
