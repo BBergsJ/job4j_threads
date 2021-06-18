@@ -48,5 +48,8 @@ public class MatrixExample {
         for (int i : rsl) {
             System.out.print(i + "  ");
         }
+
+        System.out.println(System.lineSeparator());
+        System.out.println(matrix[1][0]);
     }
 }

@@ -1,6 +1,8 @@
 package ru.job4j.concurrent.compfut;
 
 public class RolColSum {
+
+
     public static class Sums {
         private int rowSum;
         private int colSum;
@@ -24,10 +26,32 @@ public class RolColSum {
     }
 
     public static Sums[] sum(int[][] matrix) {
-        return null;
+        Sums[] sums = new Sums[matrix.length];
+        for (int i = 0; i < matrix.length; i++) {
+            int sumRow = 0;
+            int sumCol = matrix[i][i];
+            for (int j = 0; j < matrix[j].length; j++) {
+                sumRow += matrix[i][j];
+            }
+            sums[i].rowSum = sumRow;
+        }
+        return sums;
     }
 
     public static Sums[] asyncSum(int[][] matrix) {
-        return null;
+        int n = matrix.length;
+        Sums[] sums = new Sums[n * 2];
+
+        return sums;
+    }
+
+    public static void main(String[] args) {
+        int[][] matrix = new int[][]{
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        };
+        Sums[] test =  RolColSum.sum(matrix);
+        System.out.println(test);
     }
 }
