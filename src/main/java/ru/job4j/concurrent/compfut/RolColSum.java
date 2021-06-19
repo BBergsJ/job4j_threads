@@ -40,9 +40,7 @@ public class RolColSum {
             int sumCol = 0;
             for (int j = 0; j < matrix[0].length; j++) {
                 sumRow += matrix[i][j];
-            }
-            for (int l = 0; l < matrix[0].length; l++) {
-                sumCol += matrix[l][i];
+                sumCol += matrix[j][i];
             }
             Sums enterSum = new Sums();
             enterSum.setRowSum(sumRow);
