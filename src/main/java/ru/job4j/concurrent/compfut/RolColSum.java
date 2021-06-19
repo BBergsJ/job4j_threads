@@ -37,12 +37,16 @@ public class RolColSum {
         Sums[] sums = new Sums[matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             int sumRow = 0;
-            int sumCol = matrix[i][i];
+            int sumCol = 0;
             for (int j = 0; j < matrix[0].length; j++) {
                 sumRow += matrix[i][j];
             }
+            for (int l = 0; l < matrix[0].length; l++) {
+                sumCol += matrix[l][i];
+            }
             Sums enterSum = new Sums();
             enterSum.setRowSum(sumRow);
+            enterSum.setColSum(sumCol);
             sums[i] = enterSum;
         }
         return sums;
