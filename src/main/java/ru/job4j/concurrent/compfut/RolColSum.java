@@ -23,6 +23,14 @@ public class RolColSum {
         public void setColSum(int colSum) {
             this.colSum = colSum;
         }
+
+        @Override
+        public String toString() {
+            return "Sums{"
+                    + "rowSum=" + rowSum
+                    + ", colSum=" + colSum
+                    + '}';
+        }
     }
 
     public static Sums[] sum(int[][] matrix) {
@@ -30,10 +38,12 @@ public class RolColSum {
         for (int i = 0; i < matrix.length; i++) {
             int sumRow = 0;
             int sumCol = matrix[i][i];
-            for (int j = 0; j < matrix[j].length; j++) {
+            for (int j = 0; j < matrix[0].length; j++) {
                 sumRow += matrix[i][j];
             }
-            sums[i].rowSum = sumRow;
+            Sums enterSum = new Sums();
+            enterSum.setRowSum(sumRow);
+            sums[i] = enterSum;
         }
         return sums;
     }
@@ -52,6 +62,9 @@ public class RolColSum {
                 {7, 8, 9}
         };
         Sums[] test =  RolColSum.sum(matrix);
-        System.out.println(test);
+
+        for (Sums s : test) {
+            System.out.println(s);
+        }
     }
 }
