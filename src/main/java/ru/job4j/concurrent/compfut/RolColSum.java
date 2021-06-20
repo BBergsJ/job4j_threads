@@ -81,40 +81,4 @@ public class RolColSum {
             return enterSum;
         });
     }
-
-    public static void main(String[] args) throws ExecutionException, InterruptedException {
-        int[][] matrix = new int[][]{
-                {1, 2, 3},
-                {4, 5, 6},
-                {7, 8, 9}
-        };
-
-        long startTime1 = System.currentTimeMillis();
-        Sums[] test =  RolColSum.sum(matrix);
-        for (Sums s : test) {
-            System.out.println(s);
-        }
-        long finishTime1 = System.currentTimeMillis();
-        System.out.println(finishTime1 - startTime1);
-
-        System.out.println(System.lineSeparator());
-
-        long startTime2 = System.currentTimeMillis();
-        Sums[] test2 = RolColSum.asyncSum(matrix);
-        for (Sums s : test2) {
-            System.out.println(s);
-        }
-        long finishTime2 = System.currentTimeMillis();
-        System.out.println(finishTime2 - startTime2);
-
-        int[][] arr = {
-                {1, 2, 3, 10},
-                {4, 5, 6, 11},
-                {7, 8, 9, 12}
-        };
-        Sums[] test3 = RolColSum.asyncSum(arr);
-        for (Sums s : test3) {
-            System.out.println(s);
-        }
-    }
 }
