@@ -106,5 +106,15 @@ public class RolColSum {
         }
         long finishTime2 = System.currentTimeMillis();
         System.out.println(finishTime2 - startTime2);
+
+        int[][] arr = {
+                {1, 2, 3, 10},
+                {4, 5, 6, 11},
+                {7, 8, 9, 12}
+        };
+        Sums[] test3 = RolColSum.asyncSum(arr);
+        for (Sums s : test3) {
+            System.out.println(s);
+        }
     }
 }
