@@ -1,5 +1,10 @@
 package ru.job4j.concurrent.compfut;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
 public class RolColSum {
 
 
@@ -50,23 +55,56 @@ public class RolColSum {
         return sums;
     }
 
-    public static Sums[] asyncSum(int[][] matrix) {
-        int n = matrix.length;
-        Sums[] sums = new Sums[n * 2];
-
+    public static Sums[] asyncSum(int[][] matrix) throws ExecutionException, InterruptedException {
+        Sums[] sums = new Sums[matrix.length];
+        Map<Integer, CompletableFuture<Sums>> map = new HashMap<>();
+        for (int i = 0; i < matrix.length; i++) {
+            map.put(i, getSum(i, matrix));
+        }
+        for (Integer key : map.keySet()) {
+            sums[key] = map.get(key).get();
+        }
         return sums;
     }
 
-    public static void main(String[] args) {
+    public static CompletableFuture<Sums> getSum(int i, int[][] matrix) {
+        return CompletableFuture.supplyAsync(() -> {
+            int sumRow = 0;
+            int sumCol = 0;
+            for (int j = 0; j < matrix[0].length; j++) {
+                sumRow += matrix[i][j];
+                sumCol += matrix[j][i];
+            }
+            Sums enterSum = new Sums();
+            enterSum.setRowSum(sumRow);
+            enterSum.setColSum(sumCol);
+            return enterSum;
+        });
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         int[][] matrix = new int[][]{
                 {1, 2, 3},
                 {4, 5, 6},
                 {7, 8, 9}
         };
-        Sums[] test =  RolColSum.sum(matrix);
 
+        long startTime1 = System.currentTimeMillis();
+        Sums[] test =  RolColSum.sum(matrix);
         for (Sums s : test) {
             System.out.println(s);
         }
+        long finishTime1 = System.currentTimeMillis();
+        System.out.println(finishTime1 - startTime1);
+
+        System.out.println(System.lineSeparator());
+
+        long startTime2 = System.currentTimeMillis();
+        Sums[] test2 = RolColSum.asyncSum(matrix);
+        for (Sums s : test2) {
+            System.out.println(s);
+        }
+        long finishTime2 = System.currentTimeMillis();
+        System.out.println(finishTime2 - startTime2);
     }
 }
